@@ -1,0 +1,26 @@
+#! /bin/sh
+
+name=mlibc
+revision=1
+from_source="mlibc"
+hostdeps="gcc pkg-config"
+deps="mlibc-headers"
+
+configure() {
+		CFLAGS="$TARGET_CFLAGS" \
+		CXXFLAGS="$TARGET_CXXFLAGS" \
+		LDFLAGS="$TARGET_LDFLAGS -Wl,${source_dir}/libgcc-${JINX_ARCH}.a" \
+	meson_configure_noflags \
+		-Dno_headers=true \
+		-Ddefault_library=both \
+		-Dlibgcc_dependency=false \
+		-Duse_freestnd_hdrs=enabled
+}
+
+build() {
+	meson compile -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" meson install --no-rebuild
+}

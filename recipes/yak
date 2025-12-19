@@ -1,0 +1,23 @@
+#! /bin/sh
+
+name=yak
+revision=1
+version=0.0
+skip_pkg_check=yes
+source_dir="yak-src"
+imagedeps="clang"
+
+configure() {
+	cmake "${source_dir}" \
+		-DCMAKE_INSTALL_PREFIX=${prefix} \
+		-DCMAKE_BUILD_TYPE=Debug \
+		-DCMAKE_COLOR_DIAGNOSTICS=ON
+}
+
+build() {
+	cmake --build . -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" cmake --install .
+}

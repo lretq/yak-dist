@@ -1,0 +1,13 @@
+[binaries]
+c = 'x86_64-yak-mlibc-gcc'
+cpp = 'x86_64-yak-mlibc-g++'
+ar = 'x86_64-yak-mlibc-ar'
+nm = 'x86_64-yak-mlibc-nm'
+strip = 'x86_64-yak-mlibc-strip'
+pkg-config = 'x86_64-yak-mlibc-pkg-config'
+
+[host_machine]
+system = 'yak'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'

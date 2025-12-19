@@ -1,0 +1,38 @@
+#! /bin/sh
+# host-recipes/pkg-config
+
+name=pkg-config
+revision=1
+from_source="pkg-config"
+imagedeps="build-essential"
+
+configure() {
+	meson setup "${source_dir}" \
+		--prefix="${prefix}" \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=lib \
+		--bindir=bin \
+		--buildtype=release \
+		--wrap-mode=nodownload
+}
+
+build() {
+	meson compile -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" meson install
+
+	mkdir -p "${dest_dir}${prefix}/share/pkgconfig/personality.d"
+
+	cat <<EOF >"${dest_dir}${prefix}/share/pkgconfig/personality.d/${OS_TRIPLET}.personality"
+Triplet: ${OS_TRIPLET}
+DefaultSearchPaths: ${sysroot_dir}/usr/lib/pkgconfig:${sysroot_dir}/usr/share/pkgconfig
+SystemIncludePaths: ${sysroot_dir}/usr/include
+SystemLibraryPaths: ${sysroot_dir}/usr/lib
+EOF
+
+		strip_command="strip" \
+	post_package_strip
+}

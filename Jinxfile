@@ -1,0 +1,82 @@
+#! /bin/sh
+
+JINX_MAJOR_VER=0.8
+JINX_ARCH=x86_64
+JINX_DEBIAN_SNAPSHOT=20251202T083052Z
+JINX_BASE_PACKAGES="bison cmake file flex gettext m4 make meson ninja-build perl python3 texinfo which"
+JINX_CMAKE_PLATFORM=build-support/Yak.cmake
+
+OS_TOOLCHAIN=gcc
+OS_TCDIR="${base_dir}/build-support/toolchain/${OS_TOOLCHAIN}"
+
+OS_TRIPLET=$JINX_ARCH-yak-mlibc
+
+# Any further logic or variable definitions will *also* be passed to every recipe.
+
+HOST_CFLAGS="-O2 -pipe -fstack-clash-protection"
+HOST_CXXFLAGS="${HOST_CFLAGS} -Wp,-D_GLIBCXX_ASSERTIONS"
+HOST_LDFLAGS="-Wl,-O1 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now"
+
+TARGET_CFLAGS="$HOST_CFLAGS"
+TARGET_CXXFLAGS="$HOST_CXXFLAGS"
+TARGET_LDFLAGS="$HOST_LDFLAGS"
+
+case "${JINX_ARCH}" in
+	x86_64)
+		TARGET_CFLAGS="$TARGET_CFLAGS -march=x86-64 -mtune=generic -fcf-protection -fomit-frame-pointer"
+		TARGET_CXXFLAGS="$TARGET_CXXFLAGS -march=x86-64 -mtune=generic -fcf-protection -fomit-frame-pointer"
+		TARGET_LDFLAGS="$TARGET_LDFLAGS -Wl,-z,pack-relative-relocs"
+	;;
+esac
+
+meson_configure() {
+		CFLAGS="$TARGET_CFLAGS" \
+		CXXFLAGS="$TARGET_CXXFLAGS" \
+		LDFLAGS="$TARGET_LDFLAGS" \
+	meson_configure_noflags
+}
+
+meson_configure_noflags() {
+	meson setup "${source_dir}" \
+		--cross-file="${OS_TCDIR}/cross_file-${JINX_ARCH}.txt" \
+		--prefix="${prefix}" \
+		--sysconfdir=/etc \
+		--localstatedir=/var \
+		--libdir=lib \
+		--sbindir=bin \
+		--buildtype=release \
+		--wrap-mode=nodownload \
+		-Ddefault_library=shared \
+		"$@"
+}
+
+autotools_recursive_regen() {
+    for f in $(grep -rl 'GNU config.sub ($timestamp)'); do
+        mv "$f" "$f".reference
+        cp -v ${base_dir}/build-support/config.sub "$f"
+        touch -r "$f".reference "$f"
+        rm -f "$f".reference
+    done
+    for f in $(grep -rl 'GNU config.guess ($timestamp)'); do
+        mv "$f" "$f".reference
+        cp -v ${base_dir}/build-support/config.guess "$f"
+        touch -r "$f".reference "$f"
+        rm -f "$f".reference
+    done
+}
+
+post_package_strip() {
+    if [ -z "$strip_command" ]; then
+        strip_command="${OS_TRIPLET}-strip"
+    fi
+
+    for f in $(find "${dest_dir}"); do
+        if file "$f" | grep 'not stripped' >/dev/null; then
+            echo "* stripping '$f'..."
+            stripped_file="$(mktemp)"
+            ${strip_command} "$f" -o "$stripped_file"
+            chmod --reference="$f" "$stripped_file"
+            mv -f "$stripped_file" "$f"
+        fi
+    done
+}

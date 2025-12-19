@@ -1,0 +1,21 @@
+#! /bin/sh
+
+name=mlibc-headers
+revision=1
+from_source=mlibc
+skip_pkg_check=yes
+
+configure() {
+	meson setup "${source_dir}" \
+		--prefix=${prefix} \
+		--buildtype=release \
+		-Dheaders_only=true
+}
+
+build() {
+	meson compile -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" meson install --no-rebuild
+}
