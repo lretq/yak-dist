@@ -1,0 +1,7 @@
+#! /bin/sh
+
+name=base
+skip_pkg_check=1
+version=0.0
+revision=1
+deps="base-files yak mlibc"

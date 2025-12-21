@@ -1,0 +1,39 @@
+#! /bin/sh
+# host-recipes/binutils-kernel
+
+name=binutils-kernel
+revision=1
+from_source="binutils"
+imagedeps="build-essential"
+hostdeps="pkg-config"
+
+configure() {
+	"${source_dir}/configure" \
+		--prefix="${prefix}" \
+		--target="${OS_KERNEL_TRIPLET}" \
+		--with-sysroot="${sysroot_dir}" \
+		--enable-seperate-code \
+		--enable-cet \
+		--enable-default-execstack=no \
+		--enable-deterministic-archives \
+		--enable-gold \
+		--enable-ld=default \
+		--enable-new-dtags \
+		--enable-plugins \
+		--enable-relro \
+		--enable-threads \
+		--disable-nls \
+		--disable-werror \
+		--with-pic
+}
+
+build() {
+	make -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" make install
+
+		strip_command="strip" \
+	post_package_strip
+}
