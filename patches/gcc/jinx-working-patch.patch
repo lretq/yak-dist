@@ -13,7 +13,7 @@ index 1972fda..2940b6c 100755
  	set_cc_for_build
  	LIBCABI=$LIBC
 diff --git gcc-clean/config.sub gcc-workdir/config.sub
-index 38f3d03..6a80d72 100755
+index 38f3d03..335ad7f 100755
 --- gcc-clean/config.sub
 +++ gcc-workdir/config.sub
 @@ -145,7 +145,7 @@ case $1 in
@@ -49,7 +49,7 @@ index 38f3d03..6a80d72 100755
  	linux-gnu* | linux-dietlibc* | linux-android* | linux-newlib* \
  		   | linux-musl* | linux-relibc* | linux-uclibc* )
  		;;
-+	yak-mlibc* )
++	yak-mlibc* | yak-kernel* )
 +		;;
  	uclinux-uclibc* )
  		;;
@@ -125,7 +125,7 @@ index 7c80a0b..8fac7e4 100644
  
  # System-specific settings.
 diff --git gcc-clean/gcc/config.gcc gcc-workdir/gcc/config.gcc
-index 087aaa7..bab6202 100644
+index 087aaa7..251c3cc 100644
 --- gcc-clean/gcc/config.gcc
 +++ gcc-workdir/gcc/config.gcc
 @@ -885,6 +885,15 @@ case ${target} in

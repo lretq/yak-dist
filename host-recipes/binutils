@@ -8,6 +8,9 @@ imagedeps="build-essential"
 hostdeps="pkg-config"
 
 configure() {
+		CFLAGS="$HOST_CFLAGS" \
+		CXXFLAGS="$HOST_CXXFLAGS" \
+		LDFLAGS="$HOST_LDFLAGS" \
 	"${source_dir}/configure" \
 		--prefix="${prefix}" \
 		--target="${OS_TRIPLET}" \

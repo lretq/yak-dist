@@ -3,7 +3,7 @@
 name=mlibc
 revision=1
 from_source="mlibc"
-hostdeps="gcc pkg-config"
+hostdeps="${OS_TCDEP} pkg-config"
 deps="mlibc-headers"
 
 configure() {

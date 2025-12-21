@@ -5,9 +5,11 @@ revision=1
 version=0.0
 skip_pkg_check=yes
 source_dir="yak-src"
-imagedeps="clang"
+hostdeps="${OS_TCKDEP}"
 
 configure() {
+		YAK_ARCH=${JINX_ARCH} \
+		YAK_TOOLCHAIN=${OS_KERNEL_TOOLCHAIN} \
 	cmake "${source_dir}" \
 		-DCMAKE_INSTALL_PREFIX=${prefix} \
 		-DCMAKE_BUILD_TYPE=Debug \

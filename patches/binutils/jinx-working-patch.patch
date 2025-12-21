@@ -27,21 +27,24 @@ index 4e5a838..7fefe59 100644
      targ_defvec=x86_64_pe_vec
      targ_selvecs="x86_64_pe_vec x86_64_pei_vec x86_64_pe_big_vec x86_64_elf64_vec i386_pe_vec i386_pei_vec i386_elf32_vec iamcu_elf32_vec pdb_vec"
 diff --git binutils-clean/config.guess binutils-workdir/config.guess
-index 48a6846..91ef6ac 100755
+index 48a6846..6429d7d 100755
 --- binutils-clean/config.guess
 +++ binutils-workdir/config.guess
-@@ -977,6 +977,9 @@ EOF
-     x86_64:[Mm]anagarm:*:*|i?86:[Mm]anagarm:*:*)
- 	GUESS="$UNAME_MACHINE-pc-managarm-mlibc"
+@@ -980,6 +980,12 @@ EOF
+     *:[Mm]anagarm:*:*)
+ 	GUESS="$UNAME_MACHINE-unknown-managarm-mlibc"
  	;;
 +    x86_64:[Yy]ak:*:*|i?86:[Yy]ak:*:*)
 +	GUESS="$UNAME_MACHINE-pc-yak-mlibc"
 +	;;
-     *:[Mm]anagarm:*:*)
- 	GUESS="$UNAME_MACHINE-unknown-managarm-mlibc"
++    *:[Yy]ak:*:*)
++	GUESS="$UNAME_MACHINE-unknown-yak-mlibc"
++	;;
+     *:Minix:*:*)
+ 	GUESS=$UNAME_MACHINE-unknown-minix
  	;;
 diff --git binutils-clean/config.sub binutils-workdir/config.sub
-index 4aaae46..60e3f07 100755
+index 4aaae46..06ce407 100755
 --- binutils-clean/config.sub
 +++ binutils-workdir/config.sub
 @@ -147,6 +147,7 @@ case $1 in
@@ -68,7 +71,7 @@ index 4aaae46..60e3f07 100755
  		;;
  	managarm-mlibc*- | managarm-kernel*- )
  		;;
-+	yak-mlibc*- )
++	yak-mlibc*- | yak-kernel*- )
 +		;;
  	windows*-msvc*-)
  		;;
