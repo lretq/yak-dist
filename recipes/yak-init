@@ -1,0 +1,21 @@
+#! /bin/sh
+
+name=yak-init
+skip_pkg_check=yes
+version=0.0
+revision=1
+source_dir="yak-init"
+hostdeps="${OS_TCDEP}"
+deps="core-libs"
+
+configure() {
+	cmake_configure
+}
+
+build() {
+	cmake --build . -j${parallelism}
+}
+
+package() {
+	DESTDIR="${dest_dir}" cmake --install .
+}
