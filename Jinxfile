@@ -55,6 +55,27 @@ meson_configure_noflags() {
 		"$@"
 }
 
+cmake_configure() {
+		CFLAGS="$TARGET_CFLAGS" \
+		CXXFLAGS="$TARGET_CXXFLAGS" \
+		LDFLAGS="$TARGET_LDFLAGS" \
+	cmake_configure_noflags
+}
+
+cmake_configure_noflags() {
+	cmake -S "${source_dir}" \
+		-GNinja \
+		-DCMAKE_TOOLCHAIN_FILE="${OS_TCDIR}/CMakeToolchain-${JINX_ARCH}.txt" \
+		-DCMAKE_INSTALL_PREFIX="${prefix}" \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DBUILD_SHARED_LIBS=ON \
+		-DBUILD_STATIC_LIBS=OFF \
+		-DENABLE_STATIC=OFF \
+		-DPKG_CONFIG_EXECUTABLE="/usr/local/bin/pkgconf" \
+		-DCMAKE_COLOR_DIAGNOSTICS=ON \
+		"$@"
+}
+
 autotools_recursive_regen() {
     for f in $(grep -rl 'GNU config.sub ($timestamp)'); do
         mv "$f" "$f".reference

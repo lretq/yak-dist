@@ -1,6 +1,6 @@
 #! /bin/sh
 
-name=gcc
+name=toolchain-gcc
 from_source=gcc
 clean_workdirs=no
 revision=1
