@@ -1,7 +1,0 @@
-[submodule "yak-src"]
-	path = yak-src
-	url = https://github.com/lretq/yak-kernel
-	branch = impl-ttys
-[submodule "mlibc-src"]
-	path = mlibc-src
-	url = https://github.com/lretq/mlibc

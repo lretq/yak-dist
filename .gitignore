@@ -1,3 +1,6 @@
 sources/
 build-x86_64/
 .jinx-cache
+
+mlibc-src/
+yak-src/

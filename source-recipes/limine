@@ -1,0 +1,6 @@
+#! /bin/sh
+
+name=limine
+version=10.5.0
+tarball_url="https://codeberg.org/Limine/Limine/releases/download/v${version}/limine-${version}.tar.xz"
+tarball_blake2b="897a70afbf2fa81beaf49b9079a8932f1863b61c983abcc31e0e6ef2d2a7b3d75948c294ec440217981553e845e2b7d22aa896ecd1335db6d6820313bec1cc8c"
