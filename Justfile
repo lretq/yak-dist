@@ -30,3 +30,16 @@ initrd: distro
 	rm -rf sysroot/ && \
 	../jinx install sysroot/ base yak yak-init && \
 	../tools/mkinitrd.sh sysroot/ initrd.tar
+
+iso:
+	cd {{jinx_dir}} && \
+	../tools/mkiso.sh
+
+qemu +ARGS='-sk':
+	cd {{jinx_dir}} && \
+	../tools/qemu.sh {{ARGS}} || true
+
+qemu-gdb: (qemu '-skPD')
+
+gdb:
+	gdb -x '.gdbinit-{{arch}}' -x '.gdbinit'
