@@ -1,7 +1,7 @@
 #! /bin/sh
 
 name=toolchain-gcc
-from_source=gcc
+from_source=gcc-host
 clean_workdirs=no
 revision=1
 imagedeps="build-essential"
@@ -10,31 +10,40 @@ hostrundeps="binutils"
 deps="mlibc-headers"
 
 configure() {
-	"${source_dir}"/configure \
+	cp -rp "${source_dir}"/. ./
+	mkdir -p build && cd build
+
+		CFLAGS="$HOST_CFLAGS" \
+		CXXFLAGS="$HOST_CXXFLAGS" \
+		LDFLAGS="$HOST_LDFLAGS" \
+		CFLAGS_FOR_TARGET="$TARGET_CFLAGS" \
+		CXXFLAGS_FOR_TARGET="$TARGET_CXXFLAGS" \
+	../configure \
 		--prefix="${prefix}" \
 		--target="${OS_TRIPLET}" \
 		--with-sysroot="${sysroot_dir}" \
 		--disable-nls \
 		--enable-shared \
 		--enable-host-shared \
-		--enable-host-bind-now \
 		--disable-multilib \
 		--enable-initfini-array \
 		--disable-bootstrap \
 		--enable-languages=c,c++,lto \
-		--with-dwarf2 \
 		--enable-default-pie \
 		--enable-default-ssp \
-		--disable-werror \
 		--enable-linker-build-id \
-		--with-linker-hash-style=gnu
+		--with-linker-hash-style=gnu \
+		--disable-libada
 }
 
 build() {
+	cd build
 	make -j${parallelism} all-gcc
 }
 
 package() {
+	cd build
+
 	DESTDIR="${dest_dir}" make install-gcc
 
 		strip_command="strip" \

@@ -7,10 +7,17 @@ revision=1
 imagedeps="build-essential"
 hostdeps="pkg-config"
 hostrundeps="binutils-kernel"
-deps="mlibc-headers"
 
 configure() {
-	"${source_dir}"/configure \
+	cp -rp "${source_dir}"/. ./
+	mkdir -p build && cd build
+
+		CFLAGS="$HOST_CFLAGS" \
+		CXXFLAGS="$HOST_CXXFLAGS" \
+		LDFLAGS="$HOST_LDFLAGS" \
+		CFLAGS_FOR_TARGET="$TARGET_CFLAGS" \
+		CXXFLAGS_FOR_TARGET="$TARGET_CXXFLAGS" \
+	../configure \
 		--prefix="${prefix}" \
 		--target="${OS_KERNEL_TRIPLET}" \
 		--with-sysroot="${sysroot_dir}" \
@@ -31,10 +38,12 @@ configure() {
 }
 
 build() {
+	cd build
 	make -j${parallelism} all-gcc
 }
 
 package() {
+	cd build
 	DESTDIR="${dest_dir}" make install-gcc
 
 		strip_command="strip" \

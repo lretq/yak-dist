@@ -10,6 +10,7 @@ hostdeps="${OS_TCKDEP}"
 configure() {
 		YAK_ARCH=${JINX_ARCH} \
 		YAK_TOOLCHAIN=${OS_KERNEL_TOOLCHAIN} \
+		YAK_TRIPLET=${OS_KERNEL_TRIPLET} \
 	cmake "${source_dir}" \
 		-DCMAKE_INSTALL_PREFIX=${prefix} \
 		-DCMAKE_BUILD_TYPE=Debug \

@@ -1,14 +1,13 @@
 #! /bin/sh
 
 name=mlibc-headers
-revision=1
-from_source=mlibc
 skip_pkg_check=yes
+from_source=mlibc
+revision=1
+hostdeps="pkg-config"
 
 configure() {
-	meson setup "${source_dir}" \
-		--prefix=${prefix} \
-		--buildtype=release \
+	meson_configure \
 		-Dheaders_only=true
 }
 

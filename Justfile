@@ -12,6 +12,28 @@ setup:
 	git clone --recursive https://github.com/lretq/yak-kernel yak-src
 	git clone https://github.com/lretq/mlibc mlibc-src
 	mkdir -p {{jinx_dir}}
+	cd {{jinx_dir}} && \
+	../jinx init ..	
+
+host-build +PKGS:
+	cd {{jinx_dir}} && \
+	../jinx host-build {{PKGS}}
+
+host-rebuild +PKGS:
+	cd {{jinx_dir}} && \
+	../jinx host-rebuild {{PKGS}}
+
+pkg-build +PKGS:
+	cd {{jinx_dir}} && \
+	../jinx build {{PKGS}}
+
+pkg-rebuild +PKGS:
+	cd {{jinx_dir}} && \
+	../jinx rebuild {{PKGS}}
+
+pkg-regen +PKGS:
+	cd {{jinx_dir}} && \
+	../jinx regen {{PKGS}}
 
 kernel:
 	cd {{jinx_dir}} && \
@@ -20,15 +42,17 @@ kernel:
 rebuild-kernel:
 	cd {{jinx_dir}} && \
 	../jinx rebuild yak
+
+kernel-qemu: (pkg-build "yak" "mlibc") initrd iso qemu
 	
 distro:
 	cd {{jinx_dir}} && \
-	../jinx update base yak yak-init
+	../jinx update base yak yak-init bash
 
 initrd: distro
 	cd {{jinx_dir}} && \
 	rm -rf sysroot/ && \
-	../jinx install sysroot/ base yak yak-init && \
+	../jinx install sysroot/ base yak yak-init bash && \
 	../tools/mkinitrd.sh sysroot/ initrd.tar
 
 iso:
@@ -42,4 +66,4 @@ qemu +ARGS='-sk':
 qemu-gdb: (qemu '-skPD')
 
 gdb:
-	gdb -x '.gdbinit-{{arch}}' -x '.gdbinit'
+	gdb -x '.gdbinit-{{arch}}'

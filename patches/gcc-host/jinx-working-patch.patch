@@ -1,7 +1,7 @@
-diff --git gcc-clean/config.guess gcc-workdir/config.guess
+diff --git gcc-host-clean/config.guess gcc-host-workdir/config.guess
 index 1972fda..2940b6c 100755
---- gcc-clean/config.guess
-+++ gcc-workdir/config.guess
+--- gcc-host-clean/config.guess
++++ gcc-host-workdir/config.guess
 @@ -1107,6 +1107,9 @@ EOF
      vax:Linux:*:*)
  	echo "$UNAME_MACHINE"-dec-linux-"$LIBC"
@@ -12,10 +12,10 @@ index 1972fda..2940b6c 100755
      x86_64:Linux:*:*)
  	set_cc_for_build
  	LIBCABI=$LIBC
-diff --git gcc-clean/config.sub gcc-workdir/config.sub
+diff --git gcc-host-clean/config.sub gcc-host-workdir/config.sub
 index 38f3d03..335ad7f 100755
---- gcc-clean/config.sub
-+++ gcc-workdir/config.sub
+--- gcc-host-clean/config.sub
++++ gcc-host-workdir/config.sub
 @@ -145,7 +145,7 @@ case $1 in
  			nto-qnx* | linux-* | uclinux-uclibc* \
  			| uclinux-gnu* | kfreebsd*-gnu* | knetbsd*-gnu* | netbsd*-gnu* \
@@ -58,10 +58,10 @@ index 38f3d03..335ad7f 100755
  		# These are just libc implementations, not actual OSes, and thus
  		# require a kernel.
  		echo "Invalid configuration \`$1': libc \`$os' needs explicit kernel." 1>&2
-diff --git gcc-clean/fixincludes/mkfixinc.sh gcc-workdir/fixincludes/mkfixinc.sh
+diff --git gcc-host-clean/fixincludes/mkfixinc.sh gcc-host-workdir/fixincludes/mkfixinc.sh
 index 7112f4d..f7127e3 100755
---- gcc-clean/fixincludes/mkfixinc.sh
-+++ gcc-workdir/fixincludes/mkfixinc.sh
+--- gcc-host-clean/fixincludes/mkfixinc.sh
++++ gcc-host-workdir/fixincludes/mkfixinc.sh
 @@ -13,6 +13,7 @@ target=fixinc.sh
  case $machine in
      i?86-*-cygwin* | \
@@ -70,11 +70,11 @@ index 7112f4d..f7127e3 100755
      powerpc-*-eabisim* | \
      powerpc-*-eabi*    | \
      powerpc-*-rtems*   | \
-diff --git gcc-workdir/gcc/config/i386/yak.h gcc-workdir/gcc/config/i386/yak.h
+diff --git gcc-host-workdir/gcc/config/i386/yak.h gcc-host-workdir/gcc/config/i386/yak.h
 new file mode 100644
 index 0000000..a43f312
 --- /dev/null
-+++ gcc-workdir/gcc/config/i386/yak.h
++++ gcc-host-workdir/gcc/config/i386/yak.h
 @@ -0,0 +1,7 @@
 +#define GNU_USER_LINK_EMULATION32 "elf_i386"
 +#define GNU_USER_LINK_EMULATION64 "elf_x86_64"
@@ -83,11 +83,11 @@ index 0000000..a43f312
 +#define GNU_USER_DYNAMIC_LINKER32 "/does_not_exist"
 +#define GNU_USER_DYNAMIC_LINKER64 "/usr/lib/ld.so"
 +#define GNU_USER_DYNAMIC_LINKERX32 "/does_not_exist"
-diff --git gcc-workdir/gcc/config/yak.h gcc-workdir/gcc/config/yak.h
+diff --git gcc-host-workdir/gcc/config/yak.h gcc-host-workdir/gcc/config/yak.h
 new file mode 100644
 index 0000000..39a3539
 --- /dev/null
-+++ gcc-workdir/gcc/config/yak.h
++++ gcc-host-workdir/gcc/config/yak.h
 @@ -0,0 +1,22 @@
 +#undef TARGET_YAK
 +#define TARGET_YAK 1
@@ -111,10 +111,10 @@ index 0000000..39a3539
 +		builtin_assert ("system=unix");	\
 +		builtin_assert ("system=posix");\
 +	} while (0);
-diff --git gcc-clean/gcc/config.build gcc-workdir/gcc/config.build
+diff --git gcc-host-clean/gcc/config.build gcc-host-workdir/gcc/config.build
 index 7c80a0b..8fac7e4 100644
---- gcc-clean/gcc/config.build
-+++ gcc-workdir/gcc/config.build
+--- gcc-host-clean/gcc/config.build
++++ gcc-host-workdir/gcc/config.build
 @@ -45,7 +45,7 @@
  build_xm_file=
  build_xm_defines=
@@ -124,10 +124,10 @@ index 7c80a0b..8fac7e4 100644
  build_file_translate=
  
  # System-specific settings.
-diff --git gcc-clean/gcc/config.gcc gcc-workdir/gcc/config.gcc
+diff --git gcc-host-clean/gcc/config.gcc gcc-host-workdir/gcc/config.gcc
 index 087aaa7..251c3cc 100644
---- gcc-clean/gcc/config.gcc
-+++ gcc-workdir/gcc/config.gcc
+--- gcc-host-clean/gcc/config.gcc
++++ gcc-host-workdir/gcc/config.gcc
 @@ -885,6 +885,15 @@ case ${target} in
    rust_target_objs="${rust_target_objs} fuchsia-rust.o"
    target_has_targetrustm=yes
@@ -154,10 +154,10 @@ index 087aaa7..251c3cc 100644
  x86_64-*-linux* | x86_64-*-kfreebsd*-gnu | x86_64-*-gnu*)
  	tm_file="${tm_file} i386/unix.h i386/att.h elfos.h gnu-user.h glibc-stdint.h \
  		 i386/x86-64.h i386/gnu-user-common.h i386/gnu-user64.h"
-diff --git gcc-clean/gcc/cp/module.cc gcc-workdir/gcc/cp/module.cc
+diff --git gcc-host-clean/gcc/cp/module.cc gcc-host-workdir/gcc/cp/module.cc
 index 1deadcc..8c7fbe4 100644
---- gcc-clean/gcc/cp/module.cc
-+++ gcc-workdir/gcc/cp/module.cc
+--- gcc-host-clean/gcc/cp/module.cc
++++ gcc-host-workdir/gcc/cp/module.cc
 @@ -1697,8 +1697,10 @@ elf_in::defrost (const char *name)
  	      set_error (errno);
  	  else
@@ -180,10 +180,10 @@ index 1deadcc..8c7fbe4 100644
  
    hdr.buffer = (char *)mapping;
  #else
-diff --git gcc-clean/libatomic/configure.tgt gcc-workdir/libatomic/configure.tgt
+diff --git gcc-host-clean/libatomic/configure.tgt gcc-host-workdir/libatomic/configure.tgt
 index 6db039d..e4fc391 100644
---- gcc-clean/libatomic/configure.tgt
-+++ gcc-workdir/libatomic/configure.tgt
+--- gcc-host-clean/libatomic/configure.tgt
++++ gcc-host-workdir/libatomic/configure.tgt
 @@ -151,7 +151,7 @@ case "${target}" in
    *-*-linux* | *-*-gnu* | *-*-k*bsd*-gnu \
    | *-*-netbsd* | *-*-freebsd* | *-*-openbsd* | *-*-dragonfly* \
@@ -193,10 +193,10 @@ index 6db039d..e4fc391 100644
  	# POSIX system.  The OS is supported.
  	config_path="${config_path} posix"
  	;;
-diff --git gcc-clean/libcpp/Makefile.in gcc-workdir/libcpp/Makefile.in
+diff --git gcc-host-clean/libcpp/Makefile.in gcc-host-workdir/libcpp/Makefile.in
 index bb07e46..7b9acda 100644
---- gcc-clean/libcpp/Makefile.in
-+++ gcc-workdir/libcpp/Makefile.in
+--- gcc-host-clean/libcpp/Makefile.in
++++ gcc-host-workdir/libcpp/Makefile.in
 @@ -32,10 +32,10 @@ AUTOCONF = @AUTOCONF@
  AUTOHEADER = @AUTOHEADER@
  CATALOGS = $(patsubst %,po/%,@CATALOGS@)
@@ -219,10 +219,10 @@ index bb07e46..7b9acda 100644
  LIBICONV = @LIBICONV@
  LIBINTL = @LIBINTL@
  PACKAGE = @PACKAGE@
-diff --git gcc-clean/libgcc/config.host gcc-workdir/libgcc/config.host
+diff --git gcc-host-clean/libgcc/config.host gcc-host-workdir/libgcc/config.host
 index 6a88ee5..04dee63 100644
---- gcc-clean/libgcc/config.host
-+++ gcc-workdir/libgcc/config.host
+--- gcc-host-clean/libgcc/config.host
++++ gcc-host-workdir/libgcc/config.host
 @@ -310,6 +310,10 @@ case ${host} in
    tmake_file="$tmake_file t-crtstuff-pic t-libgcc-pic t-eh-dw2-dip t-slibgcc t-slibgcc-fuchsia"
    extra_parts="crtbegin.o crtend.o"
@@ -245,10 +245,10 @@ index 6a88ee5..04dee63 100644
  x86_64-*-dragonfly*)
  	tmake_file="${tmake_file} i386/t-dragonfly i386/t-crtstuff"
  	md_unwind_header=i386/dragonfly-unwind.h
-diff --git gcc-clean/libstdc++-v3/configure gcc-workdir/libstdc++-v3/configure
+diff --git gcc-host-clean/libstdc++-v3/configure gcc-host-workdir/libstdc++-v3/configure
 index 819a1d8..52df448 100755
---- gcc-clean/libstdc++-v3/configure
-+++ gcc-workdir/libstdc++-v3/configure
+--- gcc-host-clean/libstdc++-v3/configure
++++ gcc-host-workdir/libstdc++-v3/configure
 @@ -38856,7 +38856,7 @@ $as_echo "#define HAVE_TLS 1" >>confdefs.h
  
    fi

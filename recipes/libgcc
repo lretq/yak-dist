@@ -2,20 +2,20 @@
 
 name=libgcc
 skip_pkg_check=yes
-version="$(. "${base_dir}/source-recipes/gcc" && echo ${version})"
+version="$(. "${base_dir}/source-recipes/gcc-host" && echo ${version})"
 revision=1
 hostdeps="toolchain-gcc pkg-config"
 imagedeps="build-essential"
 deps="mlibc"
 
 build() {
-	cd "${build_dir}"/host-builds/toolchain-gcc
+	cd "${build_dir}"/host-builds/toolchain-gcc/build
 
 	make -j${parallelism} all-target-libgcc
 }
 
 package() {
-	cd "${build_dir}"/host-builds/toolchain-gcc
+	cd "${build_dir}"/host-builds/toolchain-gcc/build
 
 	rm -rf tmp_libgcc_dir
 	mkdir tmp_libgcc_dir

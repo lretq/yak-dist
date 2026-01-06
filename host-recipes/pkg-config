@@ -7,6 +7,9 @@ from_source="pkg-config"
 imagedeps="build-essential"
 
 configure() {
+		CFLAGS="$HOST_CFLAGS" \
+		CXXFLAGS="$HOST_CXXFLAGS" \
+		LDFLAGS="$HOST_LDFLAGS" \
 	meson setup "${source_dir}" \
 		--prefix="${prefix}" \
 		--sysconfdir=/etc \
@@ -32,6 +35,8 @@ DefaultSearchPaths: ${sysroot_dir}/usr/lib/pkgconfig:${sysroot_dir}/usr/share/pk
 SystemIncludePaths: ${sysroot_dir}/usr/include
 SystemLibraryPaths: ${sysroot_dir}/usr/lib
 EOF
+	
+	ln -s pkgconf "${dest_dir}${prefix}/bin/${OS_TRIPLET}-pkg-config"
 
 		strip_command="strip" \
 	post_package_strip

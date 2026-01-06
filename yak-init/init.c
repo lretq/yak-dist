@@ -15,14 +15,31 @@ int main(int argc, char *argv[]) {
   printf("Hello World, mlibc world!\n");
   printf("Yak init is running :~)\n");
 
-  setenv("PATH", "/usr/bin:/usr/sbin:/sbin:/bin", 0);
-  setenv("HOME", "/root", 0);
+  chdir("/root");
+  setenv("PATH", "/usr/bin:/usr/sbin:/sbin:/bin", 1);
+  setenv("PWD", "/root", 1);
+  setenv("HOME", "/root", 1);
+  setenv("TERM", "linux", 1);
 
   pid_t pid = fork();
   if (pid == 0) {
     printf("Summoned a child and it still works :O\n");
-  } else {
-    printf("forked to pid=%d\n", pid);
+
+    if (setpgid(0, 0) == -1) {
+      perror("setpgid failed");
+      exit(1);
+    }
+
+    if (tcsetpgrp(0, getpid()) == -1) {
+      perror("tcsetpgrp failed");
+      exit(1);
+    }
+
+    printf("executing bash as root shell :3\n");
+    execl("/usr/bin/bash", "/usr/bin/bash", "-l", NULL);
+    perror("bash failed to execl");
+
+    exit(1);
   }
 
   for (;;) {
