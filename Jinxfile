@@ -98,7 +98,7 @@ cmake_configure_noflags() {
 		-DBUILD_SHARED_LIBS=ON \
 		-DBUILD_STATIC_LIBS=OFF \
 		-DENABLE_STATIC=OFF \
-		-DPKG_CONFIG_EXECUTABLE="/usr/local/bin/pkgconf" \
+		-DPKG_CONFIG_EXECUTABLE="/usr/local/bin/${OS_TRIPLET}-pkg-config" \
 		-DCMAKE_COLOR_DIAGNOSTICS=ON \
 		"$@"
 }
