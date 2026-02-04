@@ -5,8 +5,8 @@ skip_pkg_check=yes
 version=0.0
 revision=1
 source_dir="yak-init"
-hostdeps="${OS_TCDEP}"
-deps="core-libs"
+hostdeps="${OS_TCDEP} pkg-config"
+deps="core-libs readline"
 
 configure() {
 	cmake_configure

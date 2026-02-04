@@ -2,7 +2,7 @@
 
 name=mlibc
 version=0.0
-revision=1
+revision=2
 source_dir="mlibc-src"
 hostdeps="${OS_TCDEP} pkg-config"
 deps="mlibc-headers"
