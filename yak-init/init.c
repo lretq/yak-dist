@@ -4,10 +4,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/signal.h>
+#include <sys/statvfs.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <sys/statvfs.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
@@ -102,9 +102,6 @@ int main(int argc, char *argv[]) {
   printf("new cwd: %s\n", cwd);
 
   waitpid_test();
-
-  struct statvfs statvfs;
-  statvfs.f_basetype[0] = 'a';
 
   pid_t pid = fork();
   if (pid == 0) {

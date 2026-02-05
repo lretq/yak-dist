@@ -34,7 +34,7 @@ prepare() {
 configure() {
 		EXTRA_CFLAGS="\
 			-DNON_INTERACTIVE_LOGIN_SHELLS \
-			-DSYS_BASHRC='\"/etc/bash/bashrc\"' \
+			-DSYS_BASHRC='\"/etc/bash.bashrc\"' \
 		" \
 		bash_cv_getcwd_malloc=yes \
 	autotools_configure \
