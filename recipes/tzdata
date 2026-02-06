@@ -17,7 +17,7 @@ early_prepare() {
 }
 
 prepare() {
-    sed -i 's/sbin/bin/g' Makefile
+    sed -i 's:sbin:bin:g' Makefile
 }
 
 build() {
