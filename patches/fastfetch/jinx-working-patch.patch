@@ -1,0 +1,294 @@
+diff --git fastfetch-clean/CMakeLists.txt fastfetch-workdir/CMakeLists.txt
+index 725b2b6..898e263 100644
+--- fastfetch-clean/CMakeLists.txt
++++ fastfetch-workdir/CMakeLists.txt
+@@ -45,6 +45,8 @@ elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Haiku")
+     set(Haiku TRUE CACHE BOOL "..." FORCE)
+ elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "GNU")
+     set(GNU TRUE CACHE BOOL "..." FORCE)
++elseif("${CMAKE_SYSTEM_NAME}" STREQUAL "Yak")
++    set(Yak TRUE CACHE BOOL "..." FORCE)
+ elseif(NOT APPLE AND NOT WIN32)
+     message(FATAL_ERROR "Unsupported platform: ${CMAKE_SYSTEM_NAME}")
+ endif()
+@@ -469,7 +471,7 @@ set(LIBFASTFETCH_SRC
+     src/modules/lm/lm.c
+     src/modules/loadavg/loadavg.c
+     src/modules/locale/locale.c
+-    src/modules/localip/localip.c
++    # src/modules/localip/localip.c
+     src/modules/logo/logo.c
+     src/modules/memory/memory.c
+     src/modules/monitor/monitor.c
+@@ -1301,6 +1303,83 @@ elseif(GNU)
+         src/detection/wmtheme/wmtheme_linux.c
+         src/detection/camera/camera_nosupport.c
+    )
++elseif(Yak)
++    list(APPEND LIBFASTFETCH_SRC
++        src/common/impl/dbus.c
++        src/common/impl/io_unix.c
++        src/common/impl/netif_gnu.c
++        src/common/impl/networking_linux.c
++        src/common/impl/processing_linux.c
++        src/common/impl/FFPlatform_unix.c
++        src/common/impl/binary_linux.c
++        src/detection/battery/battery_nosupport.c
++        src/detection/bios/bios_nosupport.c
++        src/detection/bluetooth/bluetooth_nosupport.c
++        src/detection/bluetoothradio/bluetoothradio_nosupport.c
++        src/detection/board/board_nosupport.c
++        src/detection/bootmgr/bootmgr_nosupport.c
++        src/detection/brightness/brightness_nosupport.c
++        src/detection/btrfs/btrfs_nosupport.c
++        src/detection/chassis/chassis_nosupport.c
++        src/detection/cpu/cpu_nosupport.c
++        src/detection/cpucache/cpucache_nosupport.c
++        src/detection/cpuusage/cpuusage_nosupport.c
++        src/detection/cursor/cursor_nosupport.c
++        src/detection/disk/disk_nosupport.c
++        src/detection/dns/dns_linux.c
++        src/detection/physicaldisk/physicaldisk_nosupport.c
++        src/detection/physicalmemory/physicalmemory_nosupport.c
++        src/detection/diskio/diskio_nosupport.c
++        src/detection/font/font_nosupport.c
++        src/detection/host/host_nosupport.c
++        src/detection/initsystem/initsystem_linux.c
++        src/detection/keyboard/keyboard_linux.c
++        src/detection/libc/libc_linux.c
++        src/detection/lm/lm_linux.c
++        src/detection/loadavg/loadavg_nosupport.c
++        src/detection/locale/locale_linux.c
++        src/detection/gamepad/gamepad_linux.c
++        src/detection/media/media_linux.c
++        src/detection/memory/memory_linux.c
++        src/detection/mouse/mouse_linux.c
++        src/detection/netio/netio_linux.c
++        src/detection/opengl/opengl_linux.c
++        src/detection/os/os_yak.c
++        src/detection/packages/packages_nosupport.c
++        src/detection/poweradapter/poweradapter_linux.c
++        src/detection/processes/processes_linux.c
++        src/detection/gtk_qt/qt.c
++        src/detection/sound/sound_linux.c
++        src/detection/swap/swap_linux.c
++        src/detection/terminalfont/terminalfont_linux.c
++        src/detection/terminalshell/terminalshell_linux.c
++        src/detection/terminalsize/terminalsize_linux.c
++        src/detection/theme/theme_nosupport.c
++        src/detection/tpm/tpm_linux.c
++        src/detection/uptime/uptime_linux.c
++        src/detection/users/users_nosupport.c
++        src/detection/wallpaper/wallpaper_nosupport.c
++        src/detection/wifi/wifi_nosupport.c
++        src/detection/wm/wm_nosupport.c
++        src/detection/de/de_nosupport.c
++        src/detection/wmtheme/wmtheme_nosupport.c
++        src/detection/camera/camera_linux.c
++        src/detection/displayserver/linux/displayserver_linux.c
++        src/detection/displayserver/linux/drm.c
++        src/detection/displayserver/linux/wayland/wayland.c
++        src/detection/displayserver/linux/wayland/global-output.c
++        src/detection/displayserver/linux/wayland/zwlr-output.c
++        src/detection/displayserver/linux/wayland/kde-output.c
++        src/detection/displayserver/linux/wayland/wlr-output-management-unstable-v1-protocol.c
++        src/detection/displayserver/linux/wayland/kde-output-device-v2-protocol.c
++        src/detection/displayserver/linux/wayland/kde-output-order-v1-protocol.c
++        src/detection/displayserver/linux/wayland/xdg-output-unstable-v1-protocol.c
++        src/detection/displayserver/linux/wmde.c
++        src/detection/displayserver/linux/xcb.c
++        src/detection/displayserver/linux/xlib.c
++        src/detection/gpu/gpu_nosupport.c
++        src/detection/icons/icons_nosupport.c
++    )
+ endif()
+ 
+ if(ENABLE_DIRECTX_HEADERS)
+@@ -1437,6 +1516,8 @@ elseif(Haiku)
+ elseif(GNU)
+     # On Hurd PATH_MAX is not defined. Set an arbitrary limit as workaround.
+     target_compile_definitions(libfastfetch PUBLIC _GNU_SOURCE PATH_MAX=4096 O_PATH=0)
++elseif(Yak)
++    target_compile_definitions(libfastfetch PUBLIC _GNU_SOURCE _XOPEN_SOURCE _ATFILE_SOURCE)
+ endif()
+ 
+ if(APPLE)
+@@ -1805,6 +1886,10 @@ elseif(Haiku)
+         PRIVATE "be"
+         PRIVATE "gnu"
+     )
++elseif(Yak)
++    target_link_libraries(libfastfetch
++        PRIVATE "m"
++    )
+ endif()
+ 
+ target_include_directories(libfastfetch
+@@ -2124,4 +2209,4 @@ fastfetch is a neofetch-like tool for fetching system information and displaying
+ It is written mostly in C to achieve much better performance.\
+ ")
+ 
+-include(CPack)
++include(CPack)
+\ No newline at end of file
+diff --git fastfetch-clean/src/common/impl/FFPlatform_unix.c fastfetch-workdir/src/common/impl/FFPlatform_unix.c
+index 985494b..4f8e69b 100644
+--- fastfetch-clean/src/common/impl/FFPlatform_unix.c
++++ fastfetch-workdir/src/common/impl/FFPlatform_unix.c
+@@ -62,6 +62,8 @@ static void getExePath(FFPlatform* platform)
+                 break;
+             }
+         }
++    #elif defined(__yak__)
++        size_t exePathLen = 0;
+     #endif
+     if (exePathLen > 0)
+     {
+diff --git fastfetch-clean/src/common/mallocHelper.h fastfetch-workdir/src/common/mallocHelper.h
+index a36423d..58bce26 100644
+--- fastfetch-clean/src/common/mallocHelper.h
++++ fastfetch-workdir/src/common/mallocHelper.h
+@@ -3,16 +3,6 @@
+ #include <stdlib.h>
+ #include <assert.h>
+ 
+-#if FF_HAVE_MALLOC_USABLE_SIZE || FF_HAVE_MSVC_MSIZE
+-    #if __has_include(<malloc.h>)
+-        #include <malloc.h>
+-    #else
+-        #include <malloc_np.h> // For DragonFly BSD
+-    #endif
+-#elif FF_HAVE_MALLOC_SIZE
+-    #include <malloc/malloc.h>
+-#endif
+-
+ static inline void ffWrapFree(const void* pPtr)
+ {
+     assert(pPtr);
+@@ -26,14 +16,6 @@ static inline void ffWrapFree(const void* pPtr)
+ static inline size_t ffMallocUsableSize(const void* ptr)
+ {
+     assert(ptr);
+-    #if FF_HAVE_MALLOC_USABLE_SIZE
+-        return malloc_usable_size((void*) ptr);
+-    #elif FF_HAVE_MALLOC_SIZE
+-        return malloc_size((void*) ptr);
+-    #elif FF_HAVE_MSVC_MSIZE
+-        return _msize((void*) ptr);
+-    #else
+-        (void) ptr;
+-        return 0; // Not supported
+-    #endif
++    (void) ptr;
++    return 0; // Not supported
+ }
+diff --git fastfetch-clean/src/detection/localip/localip_linux.c fastfetch-workdir/src/detection/localip/localip_linux.c
+index 0d3ca66..8b79053 100644
+--- fastfetch-clean/src/detection/localip/localip_linux.c
++++ fastfetch-workdir/src/detection/localip/localip_linux.c
+@@ -7,7 +7,9 @@
+ #include <string.h>
+ #include <ctype.h>
+ #include <net/if.h>
++#ifndef __yak__
+ #include <ifaddrs.h>
++#endif
+ #include <netinet/in.h>
+ #include <arpa/inet.h>
+ #include <stdio.h>
+@@ -29,6 +31,7 @@
+ #if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__APPLE__) || defined(__NetBSD__) || defined(__HAIKU__)
+ #include <net/if_media.h>
+ #include <net/if_dl.h>
++#elif defined(__yak__)
+ #elif !defined(__GNU__)
+ #include <netpacket/packet.h>
+ #endif
+diff --git fastfetch-workdir/src/detection/os/os_yak.c fastfetch-workdir/src/detection/os/os_yak.c
+new file mode 100644
+index 0000000..475d60b
+--- /dev/null
++++ fastfetch-workdir/src/detection/os/os_yak.c
+@@ -0,0 +1,8 @@
++#include "os.h"
++
++void ffDetectOSImpl(FFOSResult* os)
++{
++    ffStrbufSetStatic(&os->name, "Yak");
++    ffStrbufSetStatic(&os->id, "yak");
++    ffStrbufSet(&os->version, &instance.state.platform.sysinfo.release);
++}
+diff --git fastfetch-workdir/src/logo/ascii/yak.txt fastfetch-workdir/src/logo/ascii/yak.txt
+new file mode 100644
+index 0000000..4fbe4ee
+--- /dev/null
++++ fastfetch-workdir/src/logo/ascii/yak.txt
+@@ -0,0 +1,19 @@
++  $1:                               $1.
++ $1-+                                $1-
++$1=#                                $1#=
++ $1--                               $1--
++ $1++.                            $1.++
++  $1--         $2---+-+-+-          $1--
++   $1++.      $2-#######+##+.      $1.++
++    $1-++---+$2##+##########+$1---++--
++       $1.-+ $2#+####+####+##$1+++-.
++         $1. $2+#+++########$1+--.
++           .$2+###########-.
++           $2.+##########+.
++            $2-####$3++$2###+.
++            $2+##$3++++$2##+.
++             $3.+++-++++-
++              $3-+++++++
++              $3.++++++-
++               $3.--+-.
++                $3.--.
+\ No newline at end of file
+diff --git fastfetch-clean/src/logo/builtin.c fastfetch-workdir/src/logo/builtin.c
+index c2f2207..a28e36b 100644
+--- fastfetch-clean/src/logo/builtin.c
++++ fastfetch-workdir/src/logo/builtin.c
+@@ -5549,6 +5549,16 @@ static const FFlogo X[] = {
+ };
+ 
+ static const FFlogo Y[] = {
++    // Yak
++    {
++        .names = {"Yak"},
++        .lines = FASTFETCH_DATATEXT_LOGO_YAK,
++        .colors = {
++            FF_COLOR_FG_256 "250",
++            FF_COLOR_FG_256 "223",
++            FF_COLOR_FG_256 "230",
++        },
++    },
+     // YiffOS
+     {
+         .names = {"YiffOS"},
+diff --git fastfetch-clean/src/modules/modules.c fastfetch-workdir/src/modules/modules.c
+index cae08a0..57bc4df 100644
+--- fastfetch-clean/src/modules/modules.c
++++ fastfetch-workdir/src/modules/modules.c
+@@ -81,7 +81,9 @@ static FFModuleBaseInfo* L[] = {
+     &ffLMModuleInfo,
+     &ffLoadavgModuleInfo,
+     &ffLocaleModuleInfo,
++#ifndef __yak__
+     &ffLocalIPModuleInfo,
++#endif
+     &ffLogoModuleInfo,
+     NULL,
+ };
+diff --git fastfetch-clean/src/options/general.h fastfetch-workdir/src/options/general.h
+index 2248201..0634834 100644
+--- fastfetch-clean/src/options/general.h
++++ fastfetch-workdir/src/options/general.h
+@@ -16,7 +16,7 @@ typedef struct FFOptionsGeneral
+     bool detectVersion;
+ 
+     // Module options that cannot be put in module option structure
+-    #if defined(__linux__) || defined(__FreeBSD__) || defined(__sun) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__HAIKU__) || defined(__GNU__)
++    #if defined(__linux__) || defined(__FreeBSD__) || defined(__sun) || defined(__OpenBSD__) || defined(__NetBSD__) || defined(__HAIKU__) || defined(__GNU__) || defined(__yak__)
+     FFstrbuf playerName;
+     FFDsForceDrmType dsForceDrm;
+     #elif defined(_WIN32)

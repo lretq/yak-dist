@@ -81,7 +81,7 @@ fi
 case "$ARCH" in
 x86_64)
         qemu_command="qemu-system-x86_64"
-        qemu_mem="${QEMU_MEM:-256M}"
+        qemu_mem="${QEMU_MEM:-512M}"
         qemu_cores="${QEMU_CORES:-2}"
         qemu_args="$qemu_args -M q35"
         qemu_args="$qemu_args -vga virtio"

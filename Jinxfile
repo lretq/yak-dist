@@ -62,9 +62,9 @@ autotools_configure_noflags() {
 }
 
 meson_configure() {
-		CFLAGS="$TARGET_CFLAGS" \
-		CXXFLAGS="$TARGET_CXXFLAGS" \
-		LDFLAGS="$TARGET_LDFLAGS" \
+		CFLAGS="$TARGET_CFLAGS $EXTRA_CFLAGS" \
+		CXXFLAGS="$TARGET_CXXFLAGS $EXTRA_CXXFLAGS" \
+		LDFLAGS="$TARGET_LDFLAGS $EXTRA_LDFLAGS" \
 	meson_configure_noflags "$@"
 }
 
@@ -83,9 +83,9 @@ meson_configure_noflags() {
 }
 
 cmake_configure() {
-		CFLAGS="$TARGET_CFLAGS" \
-		CXXFLAGS="$TARGET_CXXFLAGS" \
-		LDFLAGS="$TARGET_LDFLAGS" \
+		CFLAGS="$TARGET_CFLAGS $EXTRA_CFLAGS" \
+		CXXFLAGS="$TARGET_CXXFLAGS $EXTRA_CXXFLAGS" \
+		LDFLAGS="$TARGET_LDFLAGS $EXTRA_LDFLAGS" \
 	cmake_configure_noflags "$@"
 }
 
