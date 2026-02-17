@@ -220,10 +220,10 @@ index 0000000..475d60b
 +}
 diff --git fastfetch-workdir/src/logo/ascii/yak.txt fastfetch-workdir/src/logo/ascii/yak.txt
 new file mode 100644
-index 0000000..4fbe4ee
+index 0000000..e0d5351
 --- /dev/null
 +++ fastfetch-workdir/src/logo/ascii/yak.txt
-@@ -0,0 +1,19 @@
+@@ -0,0 +1,20 @@
 +  $1:                               $1.
 + $1-+                                $1-
 +$1=#                                $1#=
@@ -243,7 +243,7 @@ index 0000000..4fbe4ee
 +              $3.++++++-
 +               $3.--+-.
 +                $3.--.
-\ No newline at end of file
++
 diff --git fastfetch-clean/src/logo/builtin.c fastfetch-workdir/src/logo/builtin.c
 index c2f2207..a28e36b 100644
 --- fastfetch-clean/src/logo/builtin.c
