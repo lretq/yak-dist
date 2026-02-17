@@ -47,12 +47,12 @@ kernel-qemu: (pkg-build "yak" "mlibc") initrd iso qemu
 	
 distro:
 	cd {{jinx_dir}} && \
-	../jinx update base yak yak-init bash coreutils file
+	../jinx update base yak yak-init bash coreutils file findutils tree
 
 initrd: distro
 	cd {{jinx_dir}} && \
 	rm -rf sysroot/ && \
-	../jinx install sysroot/ base yak yak-init bash coreutils file && \
+	../jinx install sysroot/ base yak yak-init bash coreutils file findutils tree && \
 	../tools/mkinitrd.sh sysroot/ initrd.tar
 
 iso:

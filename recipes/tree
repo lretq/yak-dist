@@ -1,0 +1,26 @@
+#! /bin/sh
+
+name=tree
+version=2.3.1
+revision=1
+tarball_url="https://oldmanprogrammer.net/tar/tree/tree-${version}.tgz"
+tarball_blake2b="a58ea0944deae13146d4c8282ac031b733bcae75174ad28ce25fc476b809562ca3780fea72785dbeb2bbd22071c9bb3d55db2270bfd7f271a0e712512a6dff13"
+hostdeps="${OS_TCDEP}"
+deps="core-libs"
+
+configure() {
+	cp -rp "${source_dir}"/* .
+}
+
+build() {
+		CC=${TARGET_CC} \
+		CFLAGS=${TARGET_CFLAGS} \
+		LDFLAGS=${TARGET_LDFLAGS} \
+	make -j${parallelism}
+}
+
+package() {
+	make MANDIR=${dest_dir}/usr/share/man DESTDIR=${dest_dir}/usr/bin install
+
+	post_package_strip
+}
