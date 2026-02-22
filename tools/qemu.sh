@@ -35,10 +35,12 @@ if [[ "${QEMU_PRINT}" -eq 1 ]]; then
 	print_qemu_command=1
 fi
 
-while getopts "skPnGVD" optc; do 
+while getopts "sdkPnGVD" optc; do 
 	case "${optc}" in
 		# enable [s]erial output
 		s) qemu_args="$qemu_args -serial stdio" ;;
+		# enable [d]ebugcon device
+		d) qemu_args="$qemu_args -debugcon stdio" ;;
 		# enable [k]vm
 		k) enable_kvm=1 ;;
 		# [P]ause before starting

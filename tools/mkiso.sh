@@ -19,6 +19,7 @@ iso_name="yak-$arch.iso"
 
 mkdir -p "${iso_root}/boot"
 cp -v sysroot/usr/share/yak/kernel "${iso_root}/boot/yak.elf"
+cp -v sysroot/usr/share/yak/kernel.sym "${iso_root}/boot/yak.sym"
 cp -v initrd.tar "${iso_root}/boot/initrd.tar"
 
 mkdir -p "${iso_root}/boot/limine"
@@ -31,6 +32,8 @@ protocol: limine
 kernel_path: boot():/boot/yak.elf
 module_path: boot():/boot/initrd.tar
 module_string: initrd
+module_path: boot():/boot/yak.sym
+module_string: symbols
 EOF
 
 mkdir -p "${iso_root}/EFI/BOOT/"

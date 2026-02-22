@@ -1,4 +1,4 @@
-file build-x86_64/sysroot/usr/share/yak/kernel
+file build-x86_64/builds/yak/kernel/kernel.debug
 set substitute-path /base_dir/yak-src/ yak-src/
 target remote :1234
 
